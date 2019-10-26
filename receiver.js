@@ -30,6 +30,7 @@ function start_receiver()
 
         if (seconds === 0 && miliseconds === 0)
         {
+            console.log(seconds, miliseconds);
             clearInterval(timer);
             start_receiver();
         }
