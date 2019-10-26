@@ -1,5 +1,3 @@
-var os = require('async-os-utils')
-
 function start_sender()
 {
     console.log("Sender");

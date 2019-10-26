@@ -1,7 +1,3 @@
-const os = require('os-utils');
-const perf = require('execution-time')();
-const process = require('process');
-
 function start_receiver()
 {
     console.log("Receiver");
