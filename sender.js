@@ -1,24 +1,43 @@
+const sleep = require('system-sleep');
+
 function start_sender()
 {
     console.log("Sender");
+    let toSend = [1,0,1,1,1,0,0];
+    let currentBitIndex = 0;
+    
     while(true)
     {
         let start = new Date().getTime();
-
-        while(true)
+        let bit = toSend[currentBitIndex++];
+        
+        if(currentBitIndex === toSend.length)
         {
-            let end = new Date().getTime();
-            if(end - start > 25)
-            {
-                console.log("Sending 1");
-                break;
-            }    
+            break;
         }
+        
+        if(bit === 1)
+        {
+            while(true)
+            {
+                let end = new Date().getTime();
+                if(end - start > 25)
+                {
+                    console.log("Sending 1");
+                    break;
+                }
+            }
+        }
+        else
+        {
+            sleep(25);
+        }
+
+        currentBitIndex += 1;
     }
 }
 
 (async () => {
-
     let timer = setInterval(()=> {
         
         let date = new Date();
