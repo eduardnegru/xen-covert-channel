@@ -90,6 +90,10 @@ void send_packet(int data[8])
 
 void start_sender()
 {
+    send_high();
+    send_high();
+    send_high();
+
     std::cout << "Sync finished. Sender started." << std::endl;
 
     int data[8] = {1,1,1,1,1,1,1,1};
