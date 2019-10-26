@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <iostream>
 #include <unistd.h>
+#include "CRC.h"
 
 uint64_t timeSinceEpochMillisec() {
   using namespace std::chrono;
