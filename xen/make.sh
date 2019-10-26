@@ -1,4 +1,4 @@
 #!/bin/bash
 
-g++ receiver.cpp -o receiver
-g++ sender.cpp -o sender
+g++ -std=c++11  receiver.cpp -o receiver
+g++ -std=c++11   sender.cpp -o sender
