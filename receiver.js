@@ -4,39 +4,39 @@ const process = require('process');
 
 function start_receiver()
 {
-    console.log("Receiving");
+    console.log("Receiver");
+      
+    while(true)
+    {
+        let i = 0;    
+        let start = new Date().getTime();
+
+        while(true)
+        {
+            let end = new Date().getTime();
+            i += 1;
+            if(end - start > 25)
+            {
+                console.log("Received ", i);
+                break;
+            }    
+        }
+    }
 }
 
 (async () => {
 
-    let i = 0;
-    let start = new Date().getTime();
+    let timer = setInterval(()=> {
     
-    while(true)
-    {
-        i++;
-        let end = new Date().getTime();
-        if(end - start === 1000)
+        let date = new Date();
+        let seconds = date.getSeconds();
+        let miliseconds = date.getMilliseconds();
+
+        if (seconds === 0 && miliseconds === 0)
         {
-            break;
+            clearInterval(timer);
+            start_receiver();
         }
-    }
 
-    console.log("Executed", i);
-
-
-
-    // let timer = setInterval(()=> {
-        
-    //     let date = new Date();
-    //     let seconds = date.getSeconds();
-    //     let miliseconds = date.getMilliseconds();
-
-    //     if (seconds === 0 && miliseconds === 0)
-    //     {
-    //         clearInterval(timer);
-    //     }
-
-    // }, 1);
-
+    }, 1);
 })();
