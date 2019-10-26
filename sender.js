@@ -38,16 +38,17 @@ function start_sender()
 }
 
 (async () => {
-    let timer = setInterval(()=> {
-        
+    
+    while(true)
+    {
         let date = new Date();
         let seconds = date.getSeconds();
         let miliseconds = date.getMilliseconds();
-        if (seconds === 0 && miliseconds === 0)
+     
+        if(seconds === 0 && miliseconds ===0)
         {
-            console.log(seconds, miliseconds);
-            clearInterval(timer);
             start_sender();
+            break;
         }
-    }, 1);
+    }       
 })();
