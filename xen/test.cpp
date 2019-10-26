@@ -41,7 +41,7 @@ int main(int argc, char** argv)
 
     std::ofstream myfile;
     myfile.open (filename);
-    myfile << i; 
+    myfile << i << "\n"; 
     myfile.close();
     
     return 0;
