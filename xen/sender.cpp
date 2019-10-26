@@ -95,6 +95,8 @@ void start_sender()
     int data[8] = {1,1,1,1,1,1,1,1};
     send_packet(data);
 
+    int data2[8] = {1,0,1,0,0,1,1,1};
+    send_packet(data2);
 
 }
 
