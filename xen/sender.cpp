@@ -2,8 +2,11 @@
 #include <cstdint>
 #include <iostream>
 #include <unistd.h>
+#include <time.h>
+using namespace std;
 
 int INTERVAL = 100;
+
 
 uint64_t timeSinceEpochMillisec() {
   using namespace std::chrono;
@@ -106,17 +109,40 @@ void start_sender()
 
 int main()
 {  
+   uint64_t milliseconds = timeSinceEpochMillisec();
+   time_t now = time(0);   
+   // convert now to string form
+   char* dt = ctime(&now);
+
+   cout << "The local date and time is: " << dt << endl;
+
+   // convert now to tm struct for UTC
+   tm *gmtm = gmtime(&now);
+   int sec = gmtm->tm_sec;
+   int min = 1;
+//    if (sec > 45)
+//    {
+//        min = 2;
+//    }
+
+   uint64_t target_milliseconds = milliseconds + (60 - (milliseconds / 1000) % 60) * 1000  + min * 60 * 1000;
+   target_milliseconds = target_milliseconds - (target_milliseconds % 1000);
+
+
+   cout << "Target timestamp is " << target_milliseconds << endl; 
+
     for(int i = 0;;i++)
     {        
-        uint64_t milliseconds = timeSinceEpochMillisec();
-        if (milliseconds % 10000 == 0)
+        uint64_t time = timeSinceEpochMillisec();
+
+        if (time > target_milliseconds)
         {
-            std::cout << "Started " << milliseconds << std::endl;
+            cout << "Sync done" << endl;
             break;
         }
     }
 
-    start_sender();
+    // start_sender();
     
     return 0;
 }
