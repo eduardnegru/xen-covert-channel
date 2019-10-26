@@ -3,9 +3,10 @@ const sleep = require('system-sleep');
 function start_sender()
 {
     console.log("Sender");
-    let toSend = [1,0,1,1,1,0,0];
+    let toSend = [1,1,1,1,1,1,1];
     let currentBitIndex = 0;
-    
+    const INTERVAL = 50;
+
     while(true)
     {
         let start = new Date().getTime();
@@ -21,7 +22,7 @@ function start_sender()
             while(true)
             {
                 let end = new Date().getTime();
-                if(end - start > 25)
+                if(end - start > INTERVAL)
                 {
                     console.log("Sending 1");
                     break;
@@ -30,7 +31,7 @@ function start_sender()
         }
         else
         {
-            sleep(25);
+            sleep(INTERVAL);
         }
 
         currentBitIndex += 1;

@@ -1,7 +1,8 @@
 function start_receiver()
 {
     console.log("Receiver");
-      
+    const INTERVAL = 50;
+
     while(true)
     {
         let i = 0;    
@@ -11,7 +12,7 @@ function start_receiver()
         {
             let end = new Date().getTime();
             i += 1;
-            if(end - start > 25)
+            if(end - start > INTERVAL)
             {
                 console.log("Received ", i);
                 break;
