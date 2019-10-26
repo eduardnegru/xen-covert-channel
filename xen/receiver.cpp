@@ -15,21 +15,30 @@ void start_receiver()
     int length = 7;
     int currentBitIndex = 0;
     int INTERVAL = 50;
+    int THRESHOLD = 20000;
 
     while(true)
     {
-        int i = 0;    
+        int iterations = 0;    
         uint64_t start = timeSinceEpochMillisec();
 
         while(true)
         {
             uint64_t end = timeSinceEpochMillisec();
-            i += 1;
             if(end - start > INTERVAL)
             {
-                std::cout << "Received " << i << std::endl;
+                if(iterations < THRESHOLD)
+                {
+                    std::cout << "Received 1" << std::endl;
+                }
+                else
+                {
+                    std::cout << "Received 0" << std::endl;
+                }
+
                 break;
-            }    
+            }
+            iterations += 1;
         }
     }
 }
