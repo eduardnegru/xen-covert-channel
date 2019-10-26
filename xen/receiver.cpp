@@ -29,11 +29,11 @@ void start_receiver()
             {
                 if(iterations < THRESHOLD)
                 {
-                    std::cout << "Received 1" << std::endl;
+                    std::cout << "Received 1 " << iterations << std::endl;
                 }
                 else
                 {
-                    std::cout << "Received 0" << std::endl;
+                    std::cout << "Received 0 " << iterations << std::endl;
                 }
 
                 break;
