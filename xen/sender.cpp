@@ -3,7 +3,7 @@
 #include <iostream>
 #include <unistd.h>
 
-int INTERVAL = 50;
+int INTERVAL = 100;
 
 uint64_t timeSinceEpochMillisec() {
   using namespace std::chrono;
@@ -107,6 +107,7 @@ int main()
         uint64_t milliseconds = timeSinceEpochMillisec();
         if (milliseconds % 10000 == 0)
         {
+            std::cout << "Started " << milliseconds << std::endl;
             break;
         }
     }

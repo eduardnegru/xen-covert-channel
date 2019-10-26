@@ -3,7 +3,7 @@
 #include <iostream>
 #include <unistd.h>
 
-int INTERVAL = 50;
+int INTERVAL = 100;
 int THRESHOLD = 20000;
 
 uint64_t timeSinceEpochMillisec() {
@@ -46,7 +46,7 @@ int main() {
         uint64_t milliseconds = timeSinceEpochMillisec();
         if (milliseconds % 10000 == 0)
         {
-            std::cout << "Good" << std::endl;
+            std::cout << "Started " << milliseconds << std::endl;
             break;
         }
   }
