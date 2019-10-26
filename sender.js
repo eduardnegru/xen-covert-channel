@@ -9,7 +9,7 @@ function start_sender()
     while(true)
     {
         let start = new Date().getTime();
-        let bit = toSend[currentBitIndex++];
+        let bit = toSend[currentBitIndex];
         
         if(currentBitIndex === toSend.length)
         {
