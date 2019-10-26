@@ -1,4 +1,6 @@
 const os = require('os-utils');
+const perf = require('execution-time')();
+const process = require('process');
 
 function start_receiver()
 {
@@ -7,10 +9,23 @@ function start_receiver()
 
 (async () => {
 
-    for(let i = 0; i < 1000000000000; i++)
+    let i = 0;
+    let start = new Date().getTime();
+    
+    while(true)
     {
-        
+        i++;
+        let end = new Date().getTime();
+        if(end - start === 1000)
+        {
+            break;
+        }
     }
+
+    console.log("Executed", i);
+
+
+
     // let timer = setInterval(()=> {
         
     //     let date = new Date();
