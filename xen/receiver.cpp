@@ -3,6 +3,9 @@
 #include <iostream>
 #include <unistd.h>
 
+int INTERVAL = 50;
+int THRESHOLD = 20000;
+
 uint64_t timeSinceEpochMillisec() {
   using namespace std::chrono;
   return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
@@ -10,13 +13,6 @@ uint64_t timeSinceEpochMillisec() {
 
 void start_receiver()
 {
-    std::cout << "GOOD";
-    int toSend[] = {1,1,1,1,1,1,1};
-    int length = 7;
-    int currentBitIndex = 0;
-    int INTERVAL = 50;
-    int THRESHOLD = 20000;
-
     while(true)
     {
         int iterations = 0;    
