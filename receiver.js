@@ -1,3 +1,5 @@
+const schedule = require('node-schedule');
+
 function start_receiver()
 {
     console.log("Receiver");
@@ -21,18 +23,20 @@ function start_receiver()
     }
 }
 
-(async () => {
+schedule.scheduleJob('0 * * * * *', start_receiver);       
 
-    while(true)
-    {
-        let date = new Date();
-        let seconds = date.getSeconds();
-        let miliseconds = date.getMilliseconds();
+// (async () => {
+
+//     while(true)
+//     {
+//         let date = new Date();
+//         let seconds = date.getSeconds();
+//         let miliseconds = date.getMilliseconds();
      
-        if(seconds === 0 && miliseconds ===0)
-        {
-            start_receiver();
-            break;
-        }
-    }
-})();
+//         if(seconds === 0 && miliseconds ===0)
+//         {
+//             start_receiver();
+//             break;
+//         }
+//     }
+// })();

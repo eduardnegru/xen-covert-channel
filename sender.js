@@ -1,4 +1,5 @@
 const sleep = require('system-sleep');
+const schedule = require('node-schedule');
 
 function start_sender()
 {
@@ -38,18 +39,5 @@ function start_sender()
     }
 }
 
-(async () => {
-    
-    while(true)
-    {
-        let date = new Date();
-        let seconds = date.getSeconds();
-        let miliseconds = date.getMilliseconds();
-     
-        if(seconds === 0 && miliseconds ===0)
-        {
-            start_sender();
-            break;
-        }
-    }       
-})();
+
+schedule.scheduleJob('0 * * * * *', start_sender);       
