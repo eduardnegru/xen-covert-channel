@@ -5,7 +5,7 @@
 #include <time.h>
 using namespace std;
 
-int INTERVAL = 100;
+int INTERVAL = 50;
 int THRESHOLD = 20000;
 
 uint64_t timeSinceEpochMillisec() {
