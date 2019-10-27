@@ -166,9 +166,9 @@ int main(int argc, char** argv) {
   
     sync_sender_receiver();
     start_receiver();
-    int* ptr = packets.front();
-    print_array(ptr);
-    // for (std::vector<int*>::iterator it = packets.begin() ; it != packets.end(); ++it)
-    //     print_array(*it);
+ 
+    for (std::vector<int*>::iterator it = packets.begin() ; it != packets.end(); ++it)
+        print_array(*it);
+    
     return 0;
 }
