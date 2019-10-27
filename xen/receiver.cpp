@@ -3,6 +3,8 @@
 #include <iostream>
 #include <unistd.h>
 #include <time.h>
+#include <fstream>
+
 using namespace std;
 
 int INTERVAL = 50;
@@ -42,8 +44,6 @@ void start_receiver()
             {
                 if(iterations < THRESHOLD)
                 {
-                    // std::cout << "Received 1 ";
-
                     if(waitForStartBit == false && dataBitCount < 9)
                     {
                         data[dataBitCount++] = 1;
@@ -60,10 +60,12 @@ void start_receiver()
                         {
                             std::cout << "Packet invalid" << std::endl;
                         }
-                        std::cout << "==========PACKET END==========" << std::endl;
+
                         //stop bit
                         waitForStartBit = true;
                         dataBitCount = 0;
+
+                        ofstream myfile ("output");
 
                         for(int i = 0; i < 9; i++)
                         {
@@ -74,16 +76,21 @@ void start_receiver()
                             else
                             {
                                 std::cout << data[i] << " ";
+                                myfile << data[i] << " " ;
                             }
-
+                            
                             data[i] = 0;
                         }
+
+                        myfile.close();
+
                         std::cout << std::endl;
+                        myfile << std::endl;
+                        std::cout << "==========PACKET END==========" << std::endl;
                     }
                 }
                 else
                 {
-                    // std::cout << "Received 0 ";
                     if(waitForStartBit)
                     {
                         std::cout << "==========PACKET START==========" << std::endl;
@@ -99,7 +106,6 @@ void start_receiver()
                     }                
                 }
 
-                // std::cout << iterations << std::endl;
                 break;
             }
             iterations += 1;
@@ -146,10 +152,10 @@ void sync_sender_receiver()
     }
 }
 
-int main() {
+int main(int argc, char** argv) {
   
     sync_sender_receiver();
     start_receiver();
-    
+
     return 0;
 }
