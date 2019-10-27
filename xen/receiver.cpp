@@ -66,7 +66,7 @@ void start_receiver()
                     }                
                 }
 
-                std::cout << iterations << std::endl;
+                // std::cout << iterations << std::endl;
                 break;
             }
             iterations += 1;
