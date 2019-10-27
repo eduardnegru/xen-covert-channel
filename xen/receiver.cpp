@@ -82,11 +82,10 @@ void start_receiver()
                             data[i] = 0;
                         }
 
-                        myfile.close();
-
                         std::cout << std::endl;
                         myfile << std::endl;
                         std::cout << "==========PACKET END==========" << std::endl;
+                        myfile.close();
                     }
                 }
                 else
