@@ -54,10 +54,6 @@ int main() {
    tm *gmtm = gmtime(&now);
    int sec = gmtm->tm_sec;
    int min = 1;
-//    if (sec > 45)
-//    {
-//        min = 2;
-//    }
 
    uint64_t target_milliseconds = milliseconds + (60 - (milliseconds / 1000) % 60) * 1000  + min * 60 * 1000;
    target_milliseconds = target_milliseconds - (target_milliseconds % 1000);
@@ -76,7 +72,7 @@ int main() {
         }
     }
 
-//   start_receiver();
+  start_receiver();
 
   return 0;
 }
