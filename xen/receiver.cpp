@@ -66,9 +66,7 @@ void start_receiver()
                         //stop bit
                         waitForStartBit = true;
                         dataBitCount = 0;
-
-                        ofstream myfile ("output");
-                        packets.push_back(data);
+                        int copy[8];
                         
                         for(int i = 0; i < 9; i++)
                         {
@@ -79,16 +77,16 @@ void start_receiver()
                             else
                             {
                                 std::cout << data[i] << " ";
-                                myfile << data[i] << " " ;
                             }
+                            if(i < 8)
+                                copy[i] = data[i];
                             
                             data[i] = 0;
                         }
 
                         std::cout << std::endl;
-                        myfile << std::endl;
                         std::cout << "==========PACKET END==========" << std::endl;
-                        myfile.close();
+                        packets.push_back(copy);
                         return;
                     }
                 }
