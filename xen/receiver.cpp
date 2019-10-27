@@ -89,6 +89,7 @@ void start_receiver()
                         std::cout << "==========PACKET END==========" << std::endl;
                         packets.push_back(data);
                         myfile.close();
+                        return;
                     }
                 }
                 else
