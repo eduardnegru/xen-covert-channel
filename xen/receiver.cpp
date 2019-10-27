@@ -68,7 +68,8 @@ void start_receiver()
                         dataBitCount = 0;
 
                         ofstream myfile ("output");
-
+                        packets.push_back(data);
+                        
                         for(int i = 0; i < 9; i++)
                         {
                             if (i == 8)
@@ -87,7 +88,6 @@ void start_receiver()
                         std::cout << std::endl;
                         myfile << std::endl;
                         std::cout << "==========PACKET END==========" << std::endl;
-                        packets.push_back(data);
                         myfile.close();
                         return;
                     }
