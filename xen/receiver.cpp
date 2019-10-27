@@ -16,7 +16,14 @@ uint64_t timeSinceEpochMillisec() {
   using namespace std::chrono;
   return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 }
-
+void print_array(int* data)
+{
+    for(int i = 0; i < 8; i++)
+    {
+        cout << data[i] << " ";
+    }
+    cout << endl;
+}
 bool check_parity(int data[9])
 {
     int parity = 0;
@@ -78,6 +85,7 @@ void start_receiver()
                             {
                                 std::cout << data[i] << " ";
                             }
+                            
                             if(i < 8)
                                 copy[i] = data[i];
                             
@@ -86,6 +94,7 @@ void start_receiver()
 
                         std::cout << std::endl;
                         std::cout << "==========PACKET END==========" << std::endl;
+                        print_array(copy);
                         packets.push_back(copy);
                         return;
                     }
@@ -152,14 +161,7 @@ void sync_sender_receiver()
         }
     }
 }
-void print_array(int* data)
-{
-    for(int i = 0; i < 8; i++)
-    {
-        cout << data[i] << " ";
-    }
-    cout << endl;
-}
+
 int main(int argc, char** argv) {
   
     sync_sender_receiver();
