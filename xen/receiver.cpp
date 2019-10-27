@@ -16,13 +16,13 @@ uint64_t timeSinceEpochMillisec() {
 void start_receiver()
 {
     bool waitForStartBit = true;
+    int data[9];
+    int dataBitCount = 0;
 
     while(true)
     {
         int iterations = 0;    
-        uint64_t start = timeSinceEpochMillisec();
-        int dataBitCount = 0;
-        int data[9];
+        uint64_t start = timeSinceEpochMillisec();       
 
         while(true)
         {
