@@ -36,7 +36,6 @@ void start_receiver()
                     if(waitForStartBit == false && dataBitCount < 9)
                     {
                         data[dataBitCount++] = 1;
-                        std::cout << dataBitCount << std::endl;
                     }
 
                     if(dataBitCount == 9)
@@ -56,7 +55,7 @@ void start_receiver()
                 }
                 else
                 {
-                    std::cout << "Received 0 ";
+                    // std::cout << "Received 0 ";
                     if(waitForStartBit)
                     {
                         std::cout << "==========PACKET START==========" << std::endl;
@@ -68,7 +67,6 @@ void start_receiver()
                         if(dataBitCount < 9)
                         {
                             data[dataBitCount++] = 0;
-                            std::cout << dataBitCount << std::endl;
                         }
                     }                
                 }
