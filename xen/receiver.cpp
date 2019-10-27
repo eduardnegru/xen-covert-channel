@@ -96,6 +96,8 @@ void start_receiver()
                         std::cout << "==========PACKET END==========" << std::endl;
                         print_array(copy);
                         packets.push_back(copy);
+                         for (std::vector<int*>::iterator it = packets.begin() ; it != packets.end(); ++it)
+                            print_array(*it);
                         return;
                     }
                 }
