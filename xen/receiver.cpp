@@ -10,7 +10,6 @@ using namespace std;
 
 int INTERVAL = 50;
 int THRESHOLD = 20000;
-std::vector<int*> packets = std::vector<int*>();
 
 uint64_t timeSinceEpochMillisec() {
   using namespace std::chrono;
@@ -35,14 +34,20 @@ bool check_parity(int data[9])
     return (bool)parity == data[8];
 }
 
-void start_receiver()
+void start_receiver(std::vector<int*> packets)
 {
     bool waitForStartBit = true;
     int data[9];
     int dataBitCount = 0;
+    bool exit = false;
 
     while(true)
     {
+        if(exit)
+        {
+            break;
+        }
+
         int iterations = 0;    
         uint64_t start = timeSinceEpochMillisec();       
 
@@ -94,11 +99,9 @@ void start_receiver()
 
                         std::cout << std::endl;
                         std::cout << "==========PACKET END==========" << std::endl;
-                        print_array(copy);
                         packets.push_back(copy);
-                         for (std::vector<int*>::iterator it = packets.begin() ; it != packets.end(); ++it)
-                            print_array(*it);
-                        return;
+                        exit = true;
+                        break;
                     }
                 }
                 else
@@ -123,6 +126,10 @@ void start_receiver()
             iterations += 1;
         }
     }
+
+    for (std::vector<int*>::iterator it = packets.begin() ; it != packets.end(); ++it)
+        print_array(*it);
+
 }
 
 void sync_sender_receiver()
@@ -165,12 +172,11 @@ void sync_sender_receiver()
 }
 
 int main(int argc, char** argv) {
-  
+    
+    std::vector<int*> packets = std::vector<int*>();
+
     sync_sender_receiver();
-    start_receiver();
- 
-    for (std::vector<int*>::iterator it = packets.begin() ; it != packets.end(); ++it)
-        print_array(*it);
+    start_receiver(packets);
     
     return 0;
 }
