@@ -34,6 +34,22 @@ bool check_parity(int data[9])
     return (bool)parity == data[8];
 }
 
+void write_packets_to_file(std::vector<int*> packets)
+{
+    ofstream outputFile("output");
+
+    for (std::vector<int*>::iterator it = packets.begin() ; it != packets.end(); ++it)
+    {
+        for(int i = 0; i < 8; i++)
+        {
+            outputFile  << (*it)[i];
+        }
+        outputFile << endl;
+    }
+
+    outputFile.close();
+}
+
 void start_receiver(std::vector<int*> packets)
 {
     bool waitForStartBit = true;
@@ -127,9 +143,7 @@ void start_receiver(std::vector<int*> packets)
         }
     }
 
-    for (std::vector<int*>::iterator it = packets.begin() ; it != packets.end(); ++it)
-        print_array(*it);
-
+    write_packets_to_file(packets);
 }
 
 void sync_sender_receiver()
