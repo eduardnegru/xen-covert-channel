@@ -116,8 +116,6 @@ void start_receiver(std::vector<int*> packets)
                         std::cout << std::endl;
                         std::cout << "==========PACKET END==========" << std::endl;
                         packets.push_back(copy);
-                        exit = true;
-                        break;
                     }
                 }
                 else
