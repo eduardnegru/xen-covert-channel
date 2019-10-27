@@ -16,7 +16,7 @@ uint64_t timeSinceEpochMillisec() {
 void start_receiver()
 {
     bool waitForStartBit = true;
-    bool dataIncoming = true;
+
     while(true)
     {
         int iterations = 0;    
@@ -31,7 +31,7 @@ void start_receiver()
             {
                 if(iterations < THRESHOLD)
                 {
-                    // std::cout << "Received 1 ";
+                    std::cout << "Received 1 ";
 
                     if(!waitForStartBit && dataBitCount < 9)
                     {
@@ -40,6 +40,7 @@ void start_receiver()
 
                     if(dataBitCount == 9)
                     {
+                        std::cout << "==========PACKET END==========" << std::endl;
                         //stop bit
                         waitForStartBit = true;
                         dataBitCount = 0;
@@ -54,15 +55,19 @@ void start_receiver()
                 }
                 else
                 {
-                    // std::cout << "Received 0 ";
+                    std::cout << "Received 0 ";
                     if(waitForStartBit)
                     {
+                        std::cout << "==========PACKET START==========" << std::endl;
                         //start bit
                         waitForStartBit = false;
                     }
                     else
                     {
-                        data[dataBitCount++] = 0;
+                        if(dataBitCount < 9)
+                        {
+                            data[dataBitCount++] = 0;
+                        }
                     }                
                 }
 
