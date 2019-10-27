@@ -42,7 +42,7 @@ void write_packets_to_file(std::vector<int*> packets)
     {
         for(int i = 0; i < 8; i++)
         {
-            outputFile  << (*it)[i];
+            outputFile  << (*it)[i] < " ";
         }
         outputFile << endl;
     }
