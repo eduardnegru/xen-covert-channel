@@ -5,7 +5,7 @@
 #include <time.h>
 using namespace std;
 
-int INTERVAL = 100;
+int INTERVAL = 50;
 
 
 uint64_t timeSinceEpochMillisec() {
@@ -119,11 +119,14 @@ int main()
    // convert now to tm struct for UTC
    tm *gmtm = gmtime(&now);
    int sec = gmtm->tm_sec;
-   int min = 1;
 
-   uint64_t target_milliseconds = milliseconds + (60 - (milliseconds / 1000) % 60) * 1000  + min * 60 * 1000;
+   uint64_t target_milliseconds = milliseconds + (60 - (milliseconds / 1000) % 60) * 1000;
    target_milliseconds = target_milliseconds - (target_milliseconds % 1000);
 
+   if ((milliseconds / 1000) %  60 > 45)
+   {
+       target_milliseconds += 60 * 1000;
+   }
 
    cout << "Target timestamp is " << target_milliseconds << endl; 
 

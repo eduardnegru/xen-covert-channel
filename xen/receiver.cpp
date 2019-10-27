@@ -55,10 +55,13 @@ int main() {
    int sec = gmtm->tm_sec;
    int min = 1;
 
-   uint64_t target_milliseconds = milliseconds + (60 - (milliseconds / 1000) % 60) * 1000  + min * 60 * 1000;
+   uint64_t target_milliseconds = milliseconds + (60 - (milliseconds / 1000) % 60) * 1000;
    target_milliseconds = target_milliseconds - (target_milliseconds % 1000);
 
-
+   if ((milliseconds / 1000) %  60 > 45)
+   {
+       target_milliseconds += 60 * 1000;
+   }
    cout << "Target timestamp is " << target_milliseconds << endl; 
 
     for(int i = 0;;i++)
