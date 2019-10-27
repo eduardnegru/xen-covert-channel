@@ -4,11 +4,13 @@
 #include <unistd.h>
 #include <time.h>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 
 int INTERVAL = 50;
 int THRESHOLD = 20000;
+std::vector<int*> packets = std::vector<int*>();
 
 uint64_t timeSinceEpochMillisec() {
   using namespace std::chrono;
@@ -85,6 +87,7 @@ void start_receiver()
                         std::cout << std::endl;
                         myfile << std::endl;
                         std::cout << "==========PACKET END==========" << std::endl;
+                        packets.push_back(data);
                         myfile.close();
                     }
                 }
@@ -150,11 +153,19 @@ void sync_sender_receiver()
         }
     }
 }
-
+void print_array(int* data)
+{
+    for(int i = 0; i < 8; i++)
+    {
+        cout << data[i] << " ";
+    }
+    cout << endl;
+}
 int main(int argc, char** argv) {
   
     sync_sender_receiver();
     start_receiver();
-
+    for (std::vector<int*>::iterator it = packets.begin() ; it != packets.end(); ++it)
+        print_array(*it);
     return 0;
 }
