@@ -67,7 +67,15 @@ void start_receiver()
 
                         for(int i = 0; i < 9; i++)
                         {
-                            std::cout << data[i] << " ";
+                            if (i == 8)
+                            {
+                                std::cout << "Parity = " << data[i];
+                            }
+                            else
+                            {
+                                std::cout << data[i] << " ";
+                            }
+
                             data[i] = 0;
                         }
                         std::cout << std::endl;
