@@ -109,26 +109,30 @@ void start_sender()
 
 int main()
 {  
-   uint64_t milliseconds = timeSinceEpochMillisec();
-   time_t now = time(0);   
-   // convert now to string form
-   char* dt = ctime(&now);
+    uint64_t milliseconds = timeSinceEpochMillisec();
+    time_t now = time(0);   
+    // convert now to string form
+    char* dt = ctime(&now);
 
-   cout << "The local date and time is: " << dt << endl;
+    cout << "The local date and time is: " << dt << endl;
 
-   // convert now to tm struct for UTC
-   tm *gmtm = gmtime(&now);
-   int sec = gmtm->tm_sec;
+    // convert now to tm struct for UTC
+    tm *gmtm = gmtime(&now);
+    int sec = gmtm->tm_sec;
 
-   uint64_t target_milliseconds = milliseconds + (60 - (milliseconds / 1000) % 60) * 1000;
-   target_milliseconds = target_milliseconds - (target_milliseconds % 1000);
+    uint64_t target_milliseconds = milliseconds + (60 - (milliseconds / 1000) % 60) * 1000;
+    target_milliseconds = target_milliseconds - (target_milliseconds % 1000);
 
-   if ((milliseconds / 1000) %  60 > 45)
-   {
-       target_milliseconds += 60 * 1000;
-   }
+    if ((milliseconds / 1000) %  60 > 45)
+    {
+        target_milliseconds += 60 * 1000;
+    }
 
-   cout << "Target timestamp is " << target_milliseconds << endl; 
+    int hours = (target_milliseconds / (1000 * 60 * 60)) % 24 + 2;
+    int mins = (target_milliseconds / (1000 * 60)) % 60;
+    int seconds = (target_milliseconds / 1000) % 60;
+
+    std::cout << "Scheduled at " << hours << ":" << mins << ":" << seconds << endl;
 
     for(int i = 0;;i++)
     {        
@@ -142,6 +146,6 @@ int main()
     }
 
     start_sender();
-    
+
     return 0;
 }

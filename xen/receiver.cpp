@@ -102,8 +102,24 @@ int main() {
    {
        target_milliseconds += 60 * 1000;
    }
-   cout << "Target timestamp is " << target_milliseconds << endl; 
 
+    int hours = (target_milliseconds / (1000 * 60 * 60)) % 24 + 2;
+    int mins = (target_milliseconds / (1000 * 60)) % 60;
+    int seconds = (target_milliseconds / 1000) % 60;
+
+    std::cout << "Scheduled at " << hours << ":" << mins << ":" << seconds << endl;
+
+    for(int i = 0;;i++)
+    {        
+        uint64_t time = timeSinceEpochMillisec();
+
+        if (time > target_milliseconds)
+        {
+            cout << "Sync done" << endl;
+            break;
+        }
+    }
+   
     for(int i = 0;;i++)
     {        
         uint64_t time = timeSinceEpochMillisec();
