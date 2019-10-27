@@ -3,10 +3,12 @@
 #include <iostream>
 #include <unistd.h>
 #include <time.h>
+#include <fstream>
+
 using namespace std;
 
-int INTERVAL = 50;
-
+int INTERVAL = 50, packetCount = 0;
+int** packets;
 
 uint64_t timeSinceEpochMillisec() {
   using namespace std::chrono;
@@ -99,16 +101,14 @@ void start_sender()
 
     std::cout << "Sync finished. Sender started." << std::endl;
 
-    int data[8] = {1,1,1,1,1,1,1,1};
-    send_packet(data);
-
-    int data2[8] = {1,0,1,0,0,1,1,1};
-    send_packet(data2);
-
+    for(int i = 0; i < packetCount; i++)
+    {
+        send_packet(packets[i]);
+    }
 }
 
-int main()
-{  
+void sync_sender_receiver()
+{
     uint64_t milliseconds = timeSinceEpochMillisec();
     time_t now = time(0);   
     // convert now to string form
@@ -144,8 +144,75 @@ int main()
             break;
         }
     }
+}
+
+int read_packets_from_file(int*** packets, char* filename)
+{
+    std::ifstream infile(filename);
+    std::string line;
+    std::string delimiter = " ";
+    int pos;
+
+    std::getline(infile, line);
+    int packetCount = std::stoi(line);
+
+    *packets = (int**) new int*[packetCount];
+    for (int i = 0; i < packetCount; ++i)
+        (*packets)[i] = new int[8];
+
+    int i = 0;
+
+    while (std::getline(infile, line))
+    {
+        size_t pos = 0;
+        
+        std::string token;
+        int j = 0;
+        while ((pos = line.find(delimiter)) != std::string::npos) {
+            token = line.substr(0, pos);
+            (*packets)[i][j++] = std::stoi(token);
+            line.erase(0, pos + delimiter.length());
+        }
+
+        (*packets)[i][j++] = std::stoi(token);
+        i++;
+    }
+
+    return packetCount;
+}
+
+void print_packets()
+{
+    for(int i = 0; i < packetCount; i++)
+    {
+        for(int j = 0; j < 8; j++)
+        {
+            cout << packets[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+void free_memory(int** packets)
+{
+    for (int i = 0; i < packetCount; ++i)
+        delete [] packets[i];
+    delete [] packets;
+}
+
+int main(int argc, char** argv)
+{  
+    if(argc < 2)
+    {
+        cout << "Please add the input file name with input data as argument" << endl;
+        return 0;
+    }
+
+    packetCount = read_packets_from_file(&packets, argv[1]);
+    print_packets();
+    sync_sender_receiver();
 
     start_sender();
 
+    free_memory(packets);
     return 0;
 }

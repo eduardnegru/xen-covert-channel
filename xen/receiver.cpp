@@ -99,8 +99,8 @@ void start_receiver()
     }
 }
 
-int main() {
-  
+void sync_sender_receiver()
+{
     uint64_t milliseconds = timeSinceEpochMillisec();
     time_t now = time(0);   
     // convert now to string form
@@ -111,7 +111,6 @@ int main() {
     // convert now to tm struct for UTC
     tm *gmtm = gmtime(&now);
     int sec = gmtm->tm_sec;
-    int min = 1;
 
     uint64_t target_milliseconds = milliseconds + (60 - (milliseconds / 1000) % 60) * 1000;
     target_milliseconds = target_milliseconds - (target_milliseconds % 1000);
@@ -137,18 +136,11 @@ int main() {
             break;
         }
     }
+}
 
-    for(int i = 0;;i++)
-    {        
-        uint64_t time = timeSinceEpochMillisec();
-
-        if (time > target_milliseconds)
-        {
-            cout << "Sync done" << endl;
-            break;
-        }
-    }
-
+int main() {
+  
+    sync_sender_receiver();
     start_receiver();
     
     return 0;
