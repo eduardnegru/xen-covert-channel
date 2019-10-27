@@ -13,6 +13,17 @@ uint64_t timeSinceEpochMillisec() {
   return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 }
 
+bool check_parity(int data[9])
+{
+    int parity = 0;
+    for(int i = 0; i < 8; i++)
+    {
+        parity = parity ^ data[i];
+    }
+
+    return (bool)parity == data[8];
+}
+
 void start_receiver()
 {
     bool waitForStartBit = true;
@@ -40,6 +51,15 @@ void start_receiver()
 
                     if(dataBitCount == 9)
                     {
+                        int validPacket = check_parity(data);
+                        if (validPacket)
+                        {
+                            std::cout << "Packet valid" << std::endl;
+                        }
+                        else
+                        {
+                            std::cout << "Packet invalid" << std::endl;
+                        }
                         std::cout << "==========PACKET END==========" << std::endl;
                         //stop bit
                         waitForStartBit = true;
@@ -81,25 +101,25 @@ void start_receiver()
 
 int main() {
   
- uint64_t milliseconds = timeSinceEpochMillisec();
-   time_t now = time(0);   
-   // convert now to string form
-   char* dt = ctime(&now);
+    uint64_t milliseconds = timeSinceEpochMillisec();
+    time_t now = time(0);   
+    // convert now to string form
+    char* dt = ctime(&now);
 
-   cout << "The local date and time is: " << dt << endl;
+    cout << "The local date and time is: " << dt << endl;
 
-   // convert now to tm struct for UTC
-   tm *gmtm = gmtime(&now);
-   int sec = gmtm->tm_sec;
-   int min = 1;
+    // convert now to tm struct for UTC
+    tm *gmtm = gmtime(&now);
+    int sec = gmtm->tm_sec;
+    int min = 1;
 
-   uint64_t target_milliseconds = milliseconds + (60 - (milliseconds / 1000) % 60) * 1000;
-   target_milliseconds = target_milliseconds - (target_milliseconds % 1000);
+    uint64_t target_milliseconds = milliseconds + (60 - (milliseconds / 1000) % 60) * 1000;
+    target_milliseconds = target_milliseconds - (target_milliseconds % 1000);
 
-   if ((milliseconds / 1000) %  60 > 45)
-   {
-       target_milliseconds += 60 * 1000;
-   }
+    if ((milliseconds / 1000) %  60 > 45)
+    {
+        target_milliseconds += 60 * 1000;
+    }
 
     int hours = (target_milliseconds / (1000 * 60 * 60)) % 24 + 2;
     int mins = (target_milliseconds / (1000 * 60)) % 60;
@@ -117,7 +137,7 @@ int main() {
             break;
         }
     }
-   
+
     for(int i = 0;;i++)
     {        
         uint64_t time = timeSinceEpochMillisec();
@@ -129,7 +149,7 @@ int main() {
         }
     }
 
-  start_receiver();
-
-  return 0;
+    start_receiver();
+    
+    return 0;
 }
