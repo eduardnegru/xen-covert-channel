@@ -31,11 +31,12 @@ void start_receiver()
             {
                 if(iterations < THRESHOLD)
                 {
-                    std::cout << "Received 1 ";
+                    // std::cout << "Received 1 ";
 
-                    if(!waitForStartBit && dataBitCount < 9)
+                    if(waitForStartBit == false && dataBitCount < 9)
                     {
                         data[dataBitCount++] = 1;
+                        std::cout << dataBitCount << std::endl;
                     }
 
                     if(dataBitCount == 9)
@@ -67,6 +68,7 @@ void start_receiver()
                         if(dataBitCount < 9)
                         {
                             data[dataBitCount++] = 0;
+                            std::cout << dataBitCount << std::endl;
                         }
                     }                
                 }
