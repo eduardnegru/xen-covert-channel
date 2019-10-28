@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rm receiver sender load iterations
+rm receiver sender

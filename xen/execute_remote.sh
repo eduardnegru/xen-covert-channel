@@ -12,7 +12,7 @@ mydomain2="192.168.42.109"
 
 # ssh root@$mydomain './xen-covert-channel/xen/load </dev/null >/dev/null 2>&1 &' 
 # sleep 5
-ssh root@$mydomain2 './xen-covert-channel/xen/iterations ./xen-covert-channel/xen/with_load 50'
+# ssh root@$mydomain2 './xen-covert-channel/xen/iterations ./xen-covert-channel/xen/with_load 50'
 
 # root@$mydomain2:./xen-covert-channel/xen/with_load
 # scp root@$mydomain2:./xen-covert-channel/xen/no_load root@$mydomain2:./xen-covert-channel/xen/with_load ./

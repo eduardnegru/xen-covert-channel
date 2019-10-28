@@ -26,23 +26,24 @@ int main(int argc, char** argv)
 
     filename = argv[1];
     interval = atoi(argv[2]);      
-    
-    uint64_t start = timeSinceEpochMillisec();
-    int i = 0;
     while(true)
     {
-        uint64_t end = timeSinceEpochMillisec();
-        if(end - start > INTERVAL)
+        uint64_t start = timeSinceEpochMillisec();
+        int i = 0;
+        while(true)
         {
-            break;
+            uint64_t end = timeSinceEpochMillisec();
+            if(end - start > INTERVAL)
+            {
+                std::cout << i << std::endl;
+            }
+            i++;
         }
-        i++;
     }
-
-    std::ofstream myfile;
-    myfile.open (filename);
-    myfile << i << "\n"; 
-    myfile.close();
+    // std::ofstream myfile;
+    // myfile.open (filename);
+    // myfile << i << "\n"; 
+    // myfile.close();
     
     return 0;
 }
