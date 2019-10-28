@@ -36,6 +36,7 @@ int main(int argc, char** argv)
             if(end - start > INTERVAL)
             {
                 std::cout << i << std::endl;
+                break;
             }
             i++;
         }
