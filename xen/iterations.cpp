@@ -30,7 +30,7 @@ int main(int argc, char** argv)
     while(true)
     {
         uint64_t end = timeSinceEpochMillisec();
-        if(end - start > INTERVAL)
+        if(end - start > interval)
         {
             std::cout << i << std::endl;
             break;
