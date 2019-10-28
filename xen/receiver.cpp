@@ -50,6 +50,19 @@ void write_packets_to_file(std::vector<int*> packets)
     outputFile.close();
 }
 
+int compute_threshold()
+{
+    std::ifstream fileNoLoad("no_load");
+    std::ifstream fileWithLoad("with_load");
+    std::string line;
+    int packetCount;
+
+    iterationsNoLoad = std::getline(fileNoLoad, line);
+    iterationsWithLoad = std::getline(fileWithLoad, line);
+    
+    cout << iterationsNoLoad << " " << iterationsWithLoad << endl;
+}
+
 void start_receiver(std::vector<int*> packets)
 {
     bool waitForStartBit = true;
@@ -187,8 +200,9 @@ int main(int argc, char** argv) {
     
     std::vector<int*> packets = std::vector<int*>();
 
-    sync_sender_receiver();
-    start_receiver(packets);
+    // sync_sender_receiver();
+    // start_receiver(packets);
+    compute_threshold();
     
     return 0;
 }

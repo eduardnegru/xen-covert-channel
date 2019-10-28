@@ -6,7 +6,7 @@
 #include <sstream>
 #include <string>
 
-int INTERVAL = 100;
+int INTERVAL = 50;
 
 uint64_t timeSinceEpochMillisec() {
   using namespace std::chrono;
@@ -32,7 +32,7 @@ int main(int argc, char** argv)
     while(true)
     {
         uint64_t end = timeSinceEpochMillisec();
-        if(end - start > 100)
+        if(end - start > INTERVAL)
         {
             break;
         }
