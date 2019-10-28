@@ -6,8 +6,6 @@
 #include <sstream>
 #include <string>
 
-int INTERVAL = 50;
-
 uint64_t timeSinceEpochMillisec() {
   using namespace std::chrono;
   return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
@@ -26,25 +24,24 @@ int main(int argc, char** argv)
 
     filename = argv[1];
     interval = atoi(argv[2]);      
+
+    uint64_t start = timeSinceEpochMillisec();
+    int i = 0;
     while(true)
     {
-        uint64_t start = timeSinceEpochMillisec();
-        int i = 0;
-        while(true)
+        uint64_t end = timeSinceEpochMillisec();
+        if(end - start > INTERVAL)
         {
-            uint64_t end = timeSinceEpochMillisec();
-            if(end - start > INTERVAL)
-            {
-                std::cout << i << std::endl;
-                break;
-            }
-            i++;
+            std::cout << i << std::endl;
+            break;
         }
+        i++;
     }
-    // std::ofstream myfile;
-    // myfile.open (filename);
-    // myfile << i << "\n"; 
-    // myfile.close();
+
+    std::ofstream myfile;
+    myfile.open (filename);
+    myfile << i << "\n"; 
+    myfile.close();
     
     return 0;
 }
