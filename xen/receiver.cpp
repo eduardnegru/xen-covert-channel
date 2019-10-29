@@ -56,11 +56,18 @@ int compute_threshold()
     std::ifstream fileWithLoad("with_load");
     std::string line;
     int packetCount;
-
-    iterationsNoLoad = std::getline(fileNoLoad, line);
-    iterationsWithLoad = std::getline(fileWithLoad, line);
     
-    cout << iterationsNoLoad << " " << iterationsWithLoad << endl;
+    std::getline(fileNoLoad, line);
+    int iterationsNoLoad = std::stoi(line);
+    std::getline(fileWithLoad, line);
+    int iterationsWithLoad = std::stoi(line);
+    
+    //half rounded to tens of thousands superior
+    int threshold = (iterationsWithLoad + iterationsNoLoad) / 2;
+
+    threshold = threshold - threshold % 10000 + 10000;
+    cout << threshold;
+    return threshold;
 }
 
 void start_receiver(std::vector<int*> packets)

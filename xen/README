@@ -1,0 +1,62 @@
+1. How to build the program?
+
+In order the build the program simply run the script 'make.sh'. The script compliles all cpp files and creates the executables sender,
+receiver, load and iterations.
+
+2. How to run the program?
+
+Sender and receiver must be run on different XEN VM's that use the same physical core at the same time.
+
+Load executable is used to generate load on a VM and interation is used to count the number of iterations that can be executed in 
+a time frame and write that number to a file. Load and iterations executable files are used inside 'execute_remote.sh' script that computes
+the number of iterations that represent the threshold between 0 and 1 and writes the result to a file.
+
+3. Development platform specs
+
+OS: Ubuntu 19.04
+CPU: Intel(R) Core(TM) i7-5500U CPU @ 2.40GHz, 4 cores, x86_64
+Kernel: Linux 5.0.0-32-generic
+XEN version: 4.9.2
+
+4. Solution
+
+4.1 Basic idea.
+
+The basic idea is that a program inside a VM generates CPU load with a while true for a time interval(50 milliseconds). At the same time the program
+on the other machine counts the number of iterations it can perform. If the number of iterations is smaller than the computed threshold(from file) it means
+that there is load on the other machine and therefore logic 1 is received. If the number of iterations is greater than the threshold it means that there is no
+load, thus 0 logic.
+
+4.2 Synchronizaton
+
+The 2 VMs cannot be started at the same time, thus the need of synchronizaton. In order to synchronize the VMs I created a rule based on the current
+timestamp (milliseconds since the Epoch) the program was started.
+
+Program1 starts at 21:53:20
+Program2 starts at 21:53:30
+------------------------------> The 2 programs will start the process at 21:54.
+
+4.3 Protocol
+
+Data from file contains the number of packets to send on the first line and a list of bytes in binary. Each packet contains 8 bits of Data
+Packet format:
+
+---------------------------------------------------------------------------------------------------
+| start |  Data  |  Data  |  Data  |  Data  |  Data  |  Data  |  Data  |  Data  |  FCS   |  Stop  |
+|  bit  |   0    |   1    |   2    |   3    |   4    |   5    |   6    |   7    |  bit   |   bit  |
+---------------------------------------------------------------------------------------------------
+
+FCS is a simple parity check on the data bits. Parity is computed by XORing all data bits. Start bit is always 0. Stop bit is always 1.
+At the beginning of the program 1 is sent 3 times(convention). I did this so that the receiver can pick the start bit which is 0. The receiver
+should check the parity bit, recompute the parity on the received data and send an ACK if they match or send a NACK if they don't. If the sender
+receives an ACK it should continue to the next packet otherwise resend the previous packet.
+Data is read from a file before the communication starts. I chose to do this to avoid the overhead from I/O that could break the sync of the machines.
+
+
+4.4 Covert channel
+
+There is no communication between the machines. Only CPU-induced load is used to send data.
+
+
+
+
