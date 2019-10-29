@@ -53,7 +53,6 @@ void send_high()
 
 void send_low()
 {
-    std::cout << "Sending 0" << std::endl;
     usleep(INTERVAL * 1000);
 }
 
