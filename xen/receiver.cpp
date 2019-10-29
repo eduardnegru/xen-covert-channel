@@ -206,10 +206,10 @@ void sync_sender_receiver()
 int main(int argc, char** argv) {
     
     std::vector<int*> packets = std::vector<int*>();
-
-    // sync_sender_receiver();
-    // start_receiver(packets);
     compute_threshold();
+
+    sync_sender_receiver();
+    start_receiver(packets);
     
     return 0;
 }
