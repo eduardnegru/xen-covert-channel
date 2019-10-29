@@ -122,7 +122,7 @@ nack:
 
     //wait for ACK or NACK
     int bit = check_status();// ACK-0 NACK-1
-    if(bit == 1)
+    if(bit == 0)
     {
         std::cout << "[NACK] Resending the packet." << std::endl;
         goto nack;
