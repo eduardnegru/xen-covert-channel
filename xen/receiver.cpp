@@ -75,34 +75,31 @@ void start_receiver(std::vector<int*> packets)
     bool waitForStartBit = true;
     int data[9];
     int dataBitCount = 0;
+    bool exit = false;
 
     //convention. after n packets with only zeros received the receiver exits the program.
     int dataAllZeros = 0;
     
     while(true)
     {
-        if(dataAllZeros == 3)
+        if(exit)
         {
-            cout << "Received 3 packets full of zero. I will consider the conversation ended. Bye." << endl; 
             break;
         }
 
         int iterations = 0;    
         uint64_t start = timeSinceEpochMillisec();       
-        int zeros = 0;
         while(true)
         {
             uint64_t end = timeSinceEpochMillisec();
+            int zeros = 0;
+
             if(end - start > INTERVAL)
             {
                 if(iterations < THRESHOLD)
                 {
                     if(waitForStartBit == false && dataBitCount < 9)
                     {
-                        if(data[dataBitCount] == 0)
-                        {
-                            zeros += 1;
-                        }
                         data[dataBitCount++] = 1;
                     }
 
@@ -132,6 +129,10 @@ void start_receiver(std::vector<int*> packets)
                             else
                             {
                                 std::cout << data[i] << " ";
+                                 if(data[i] == 0)
+                                {
+                                    zeros += 1;
+                                }
                             }
                             
                             if(i < 8)
@@ -139,9 +140,13 @@ void start_receiver(std::vector<int*> packets)
                             
                             data[i] = 0;
                         }
-
                         std::cout << std::endl;
                         std::cout << "==========PACKET END==========" << std::endl;
+                        if(zeros == 8)
+                        {
+                            exit = true;
+                            break;
+                        }
                         packets.push_back(copy);
                     }
                 }
