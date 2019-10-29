@@ -11,6 +11,9 @@ using namespace std;
 int INTERVAL = 50;
 int THRESHOLD = 20000;
 
+int packets[10000][8];
+int size = 0;
+
 uint64_t timeSinceEpochMillisec() {
   using namespace std::chrono;
   return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
@@ -34,15 +37,15 @@ bool check_parity(int data[9])
     return (bool)parity == data[8];
 }
 
-void write_packets_to_file(std::vector<int*> packets)
+void write_packets_to_file()
 {
     ofstream outputFile("output");
 
-    for (std::vector<int*>::iterator it = packets.begin() ; it != packets.end(); ++it)
+    for (int i = 0; i < size; i++)
     {
-        for(int i = 0; i < 8; i++)
+        for(int j = 0; j < 8; j++)
         {
-            outputFile  << (*it)[i] << " ";
+            outputFile  << packets[i][j] << " ";
         }
         outputFile << endl;
     }
@@ -70,7 +73,7 @@ int compute_threshold()
     return threshold;
 }
 
-void start_receiver(std::vector<int*> packets)
+void start_receiver()
 {
     bool waitForStartBit = true;
     int data[9];
@@ -118,7 +121,6 @@ void start_receiver(std::vector<int*> packets)
                         //stop bit
                         waitForStartBit = true;
                         dataBitCount = 0;
-                        int copy[8];
                         
                         for(int i = 0; i < 9; i++)
                         {
@@ -136,7 +138,7 @@ void start_receiver(std::vector<int*> packets)
                             }
                             
                             if(i < 8)
-                                copy[i] = data[i];
+                                packets[size][i]= data[i];
                             
                             data[i] = 0;
                         }
@@ -147,7 +149,7 @@ void start_receiver(std::vector<int*> packets)
                             exit = true;
                             break;
                         }
-                        packets.push_back(copy);
+                        size++;
                     }
                 }
                 else
@@ -173,7 +175,7 @@ void start_receiver(std::vector<int*> packets)
         }
     }
 
-    write_packets_to_file(packets);
+    write_packets_to_file();
 }
 
 void sync_sender_receiver()
@@ -217,11 +219,10 @@ void sync_sender_receiver()
 
 int main(int argc, char** argv) {
     
-    std::vector<int*> packets = std::vector<int*>();
     compute_threshold();
 
     sync_sender_receiver();
-    start_receiver(packets);
+    start_receiver();
     
     return 0;
 }
