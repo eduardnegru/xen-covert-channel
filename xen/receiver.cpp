@@ -75,18 +75,21 @@ void start_receiver(std::vector<int*> packets)
     bool waitForStartBit = true;
     int data[9];
     int dataBitCount = 0;
-    bool exit = false;
 
+    //convention. after n packets with only zeros received the receiver exits the program.
+    int dataAllZeros = 0;
+    
     while(true)
     {
-        if(exit)
+        if(dataAllZeros == 3)
         {
+            cout << "Received 3 packets full of zero. I will consider the conversation ended. Bye." << endl; 
             break;
         }
 
         int iterations = 0;    
         uint64_t start = timeSinceEpochMillisec();       
-
+        int zeros = 0;
         while(true)
         {
             uint64_t end = timeSinceEpochMillisec();
@@ -96,6 +99,10 @@ void start_receiver(std::vector<int*> packets)
                 {
                     if(waitForStartBit == false && dataBitCount < 9)
                     {
+                        if(data[dataBitCount] == 0)
+                        {
+                            zeros += 1;
+                        }
                         data[dataBitCount++] = 1;
                     }
 

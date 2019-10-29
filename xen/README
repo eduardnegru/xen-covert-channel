@@ -10,6 +10,15 @@ Sender and receiver must be run on different XEN VM's that use the same physical
 Load executable is used to generate load on a VM and interation is used to count the number of iterations that can be executed in 
 a time frame and write that number to a file. Load and iterations executable files are used inside 'execute_remote.sh' script that computes
 the number of iterations that represent the threshold between 0 and 1 and writes the result to a file.
+eg.
+
+./sender input (VM1)
+./receive      (VM2)
+
+Sample input file
+2
+0 1 0 1 0 0 0 1
+1 1 1 1 1 0 0 1
 
 3. Development platform specs
 
@@ -35,6 +44,8 @@ timestamp (milliseconds since the Epoch) the program was started.
 Program1 starts at 21:53:20
 Program2 starts at 21:53:30
 ------------------------------> The 2 programs will start the process at 21:54.
+
+! Please check the scheduled time as prompted in both VMs before continuing any further. !
 
 4.3 Protocol
 
