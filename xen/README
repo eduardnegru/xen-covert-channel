@@ -63,6 +63,8 @@ should check the parity bit, recompute the parity on the received data and send 
 receives an ACK it should continue to the next packet otherwise resend the previous packet.
 Data is read from a file before the communication starts. I chose to do this to avoid the overhead from I/O that could break the sync of the machines.
 
+After a packet is send the receiver checks the parity and sends a nack or ack accordingly. If nack is sent the sender resends the packet otherwise it sends
+the follwing packet.
 
 4.4 Covert channel
 

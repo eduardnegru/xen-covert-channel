@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int INTERVAL = 50, packetCount = 0;
+int INTERVAL = 50, packetCount = 0, THRESHOLD = 20000; //default value. read from file in compute_threshold()
 int** packets;
 
 uint64_t timeSinceEpochMillisec() {
@@ -48,6 +48,26 @@ int compute_parity(int data[8])
     return sum;
 }
 
+int compute_threshold()
+{
+    std::ifstream fileNoLoad("no_load");
+    std::ifstream fileWithLoad("with_load");
+    std::string line;
+    int packetCount;
+    
+    std::getline(fileNoLoad, line);
+    int iterationsNoLoad = std::stoi(line);
+    std::getline(fileWithLoad, line);
+    int iterationsWithLoad = std::stoi(line);
+    
+    //half rounded to tens of thousands superior
+    int threshold = (iterationsWithLoad + iterationsNoLoad) / 2;
+
+    threshold = threshold - threshold % 10000 + 10000;
+    cout << threshold;
+    return threshold;
+}
+
 int check_status()
 {
     int iterations = 0;    
@@ -58,9 +78,9 @@ int check_status()
     {
         uint64_t end = timeSinceEpochMillisec();
 
-        if(end - start > 50)
+        if(end - start > INTERVAL)
         {
-            if(iterations < 20000)
+            if(iterations < THRESHOLD)
             {
                 status = 1;
             }
@@ -246,7 +266,7 @@ int main(int argc, char** argv)
         cout << "Please add the input file name with input data as argument" << endl;
         return 0;
     }
-
+    THRESHOLD = compute_threshold();
     packetCount = read_packets_from_file(&packets, argv[1]);
     print_packets();
     sync_sender_receiver();

@@ -9,6 +9,8 @@
 using namespace std;
 
 int INTERVAL = 50;
+
+//default value. read from file in compute_threshold()
 int THRESHOLD = 20000;
 
 int packets[10000][8];
@@ -249,7 +251,7 @@ void sync_sender_receiver()
 
 int main(int argc, char** argv) {
     
-    compute_threshold();
+    THRESHOLD = compute_threshold();
 
     sync_sender_receiver();
     start_receiver();
