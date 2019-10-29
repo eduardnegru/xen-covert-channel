@@ -68,6 +68,8 @@ Data is read from a file before the communication starts. I chose to do this to 
 
 There is no communication between the machines. Only CPU-induced load is used to send data.
 
+Convention.
+A packet full of zeros closes the receiver.
 
 
 
