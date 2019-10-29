@@ -36,6 +36,26 @@ bool check_parity(int data[9])
 
     return (bool)parity == data[8];
 }
+void send_high()
+{
+    uint64_t start = timeSinceEpochMillisec();
+
+    while(true)
+    {
+        uint64_t end = timeSinceEpochMillisec();
+        if(end - start > INTERVAL)
+        {
+            std::cout << "Sending 1" << std::endl;
+            break;
+        }
+    }
+}
+
+void send_low()
+{
+    std::cout << "Sending 0" << std::endl;
+    usleep(INTERVAL * 1000);
+}
 
 void write_packets_to_file()
 {
@@ -150,6 +170,17 @@ void start_receiver()
                             break;
                         }
                         size++;
+
+                        if(validPacket)
+                        {
+                            send_low();
+                            std::cout << "Sending ACK" << std::endl;
+                        }
+                        else
+                        {
+                            send_high();
+                            std::cout << "Sending NACK" << std::endl;
+                        }
                     }
                 }
                 else

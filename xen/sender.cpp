@@ -48,8 +48,36 @@ int compute_parity(int data[8])
     return sum;
 }
 
+int check_status()
+{
+    int iterations = 0;    
+    uint64_t start = timeSinceEpochMillisec();       
+    int status = 0;
+    
+    while(true)
+    {
+        uint64_t end = timeSinceEpochMillisec();
+
+        if(end - start > 50)
+        {
+            if(iterations < 20000)
+            {
+                status = 1;
+            }
+            else
+            {
+                status = 0;
+            }
+            break;
+        }
+    }
+    return status;
+}
+
 void send_packet(int data[8])
 {
+
+nack:  
     //start bit
     send_low();
 
@@ -91,6 +119,18 @@ void send_packet(int data[8])
 
     //stop
     send_high();
+
+    //wait for ACK or NACK
+    int bit = check_status();// ACK-0 NACK-1
+    if(bit == 1)
+    {
+        std::cout << "[NACK] Resending the packet." << std::endl;
+        goto nack;
+    }
+    else
+    {
+        std::cout << "[ACK] Sending next packet " << std::endl;
+    }
 }
 
 void start_sender()

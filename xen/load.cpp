@@ -3,7 +3,7 @@
 #include <iostream>
 #include <unistd.h>
 
-int INTERVAL = 10 * 100000;
+int INTERVAL = 60000;
 
 uint64_t timeSinceEpochMillisec() {
   using namespace std::chrono;
